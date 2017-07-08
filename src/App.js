@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
+import soulsPortal from './images/soulsportal.gif';
 
 class App extends Component {
   constructor(props){
     super(props);
+
+    window.totalSouls = localStorage.getItem('totalSouls') || "0";
+    window.souls = localStorage.getItem('souls') || "0";
+    window.imps = localStorage.getItem('imps') || "0";
+
     this.state={
-      souls: 0,
-      imps: 0,
+      souls: parseInt(window.souls, 10),
+      imps: parseInt(window.imps, 10),
       impCost: 10,
+      totalSouls: parseInt(window.totalSouls, 10),
     }
   }
 
@@ -15,13 +22,15 @@ class App extends Component {
     var clickIncrement = 1;
 
     this.setState({
-      souls: this.state.souls + clickIncrement
+      souls: this.state.souls + clickIncrement,
+      totalSouls: this.state.totalSouls + clickIncrement
     })
   }
 
   impIncrement = () => {
     this.setState({
-      souls: this.state.souls + this.state.imps
+      souls: this.state.souls + this.state.imps,
+      totalSouls: this.state.totalSouls + this.state.imps
     })
   }
 
@@ -34,6 +43,24 @@ class App extends Component {
     }
   }
 
+  saveGame = () => {
+    localStorage.setItem('souls', this.state.souls);
+    localStorage.setItem('imps', this.state.imps);
+    localStorage.setItem('totalSouls', this.state.totalSouls);
+  }
+
+  resetGame = () => {
+    localStorage.setItem('souls', 0);
+    localStorage.setItem('imps', 0);
+    localStorage.setItem('totalSouls', 0);
+    
+    this.setState({
+      souls: 0,
+      imps: 0,
+      totalSouls: 0
+    })
+  }
+
   componentDidMount() {
     var tick = setInterval(this.impIncrement, 1000);
     this.setState({tick: tick});
@@ -42,13 +69,28 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={this.soulClick}>Soul</button>
-        {this.state.souls}
-        <br /><br />
+        <div>
+          Total Souls Collected:
+          {this.state.totalSouls}
+        </div>
+        <div className="App-souls">
+          <div>
+            {this.state.souls}
 
-        Imps: {this.state.imps}<br />
-        Cost: {this.state.impCost}<br />
-        <button onClick={this.buyImp}>Buy Imp</button>
+          </div>
+          <a onClick={this.soulClick}>
+            <img src={soulsPortal} alt="soulsPortal" />
+          </a>
+        </div>
+        <div className="App-purchases">
+          Imps: {this.state.imps}<br />
+          Cost: {this.state.impCost}<br />
+          <button onClick={this.buyImp}>Buy Imp</button>
+        </div>
+        <div>
+          <button onClick={this.saveGame}>Save Game</button>
+          <button onClick={this.resetGame}>Reset Game</button>
+        </div>
       </div>
     );
   }
