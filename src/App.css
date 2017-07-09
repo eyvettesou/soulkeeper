@@ -1,23 +1,43 @@
+@import '~antd/dist/antd.css';
+
+body {
+  background-color: black;
+  color: white;
+}
+
 .App {
   text-align: center;
   height: auto;
+  display: flex;
   /*background-color: blue;*/
 }
 
-.App-souls {
+.App-left {
   /*background-color: green;*/
   display: inline-flex;
   flex-direction: column;
+  flex-grow: 1;
+  max-width: 500px;
   padding: 1em;
+  margin: 1em;
+}
+
+.App-right {
+  /*background-color: blue;*/
+  display: box;
+  flex-grow: 2;
   margin: 1em;
 }
 
 .App-purchases {
   /*background-color: red;*/
-  display: inline-flex;;
-  flex-direction: column;
-  padding: 1em;
   margin: 1em;
+}
+
+.App-upgrades {
+  text-align: left;
+  margin: 1em;
+  /*background-color: pink;*/
 }
 
 .App-demons {
@@ -29,6 +49,11 @@
 
 .App-demon-button {
   margin: 1em;
+}
+
+h2 {
+  text-align: left;
+  color: white;
 }
 
 @keyframes App-logo-spin {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Icon } from 'antd';
 import soulsPortal from './images/soulsportal.gif';
 
 const impCostInit = 10;
@@ -178,47 +179,67 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div>
-          Total Souls Collected:
-          {this.state.totalSouls}
-        </div>
-
-        <div className="App-souls">
+        <div className="App-left">
           {this.state.souls}
           <a onClick={this.soulClick}>
             <img src={soulsPortal} alt="soulsPortal" />
           </a>
-        </div>
 
-        <div className="App-purchases">
-
-          <div className="App-demons">
-            Imps: {this.state.imps}<br />
-            Cost: {this.state.impCost}<br />
-            <button
-              className="App-demon-button"
-              onClick={
-                () => this.buyDemon('imp')
-              }
-            > Buy Imp </button>
+          <div>
+            Total Souls Collected:
+            {this.state.totalSouls}
           </div>
 
-          <div className="App-demons">
-            Goblins: {this.state.gobs}<br />
-            Cost: {this.state.gobCost}<br />
-            <button
-              className="App-demon-button"
-              onClick={
-                () => this.buyDemon('gob')
-              }> Buy Goblin </button>
+          <div>
+            <button onClick={this.saveGame}>Save Game</button>
+            <button onClick={this.resetGame}>Reset Game</button>
+          </div>
+        </div>
+
+        <div className ="App-right">
+
+          <div className = "App-purchases">
+            <h2>Upgrades</h2>
+            <div className = "App-upgrades">
+              <a>
+                <Icon type="caret-up" style={{ fontSize: 45, margin: '0.2em' }} />
+              </a>
+              <a>
+                <Icon type="star" style={{ fontSize: 45, margin: '0.2em' }} />
+              </a>
+              <a>
+                <Icon type="team" style={{ fontSize: 45, margin: '0.2em' }} />
+              </a>
+            </div>
+          </div>
+
+          <div className="App-purchases">
+            <h2>Demons</h2>
+            <div className="App-demons">
+              Imps: {this.state.imps}<br />
+              Cost: {this.state.impCost}<br />
+              <button
+                className="App-demon-button"
+                onClick={
+                  () => this.buyDemon('imp')
+                }
+              > Buy Imp </button>
+            </div>
+
+            <div className="App-demons">
+              Goblins: {this.state.gobs}<br />
+              Cost: {this.state.gobCost}<br />
+              <button
+                className="App-demon-button"
+                onClick={
+                  () => this.buyDemon('gob')
+                }> Buy Goblin </button>
+            </div>
           </div>
 
         </div>
 
-        <div>
-          <button onClick={this.saveGame}>Save Game</button>
-          <button onClick={this.resetGame}>Reset Game</button>
-        </div>
+
       </div>
     );
   }
