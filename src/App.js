@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import soulsPortal from './images/soulsportal.gif';
 
+const impCostInit = 10;
+const gobCostInit = 50;
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -15,13 +18,14 @@ class App extends Component {
 
     this.state={
       souls: parseInt(window.save.souls, 10),
-      imps: parseInt(window.save.imps, 10),
-      impCost: 10,
-      gobs: parseInt(window.save.gobs, 10),
-      gobCost: 100,
       totalSouls: parseInt(window.save.totalSouls, 10),
       save: window.save,
-      demonName: '',
+
+      imps: parseInt(window.save.imps, 10),
+      gobs: parseInt(window.save.gobs, 10),
+
+      impCost: impCostInit,
+      gobCost: gobCostInit,
     }
   }
 
@@ -34,40 +38,37 @@ class App extends Component {
     })
   }
 
-  impIncrement = () => {
+  buyDemon = (demonName) => {
+    if (demonName == 'imp') {
+      if (this.state.souls >= this.state.impCost) {
+        this.setState({
+          souls: this.state.souls - this.state.impCost,
+          imps: this.state.imps + 1,
+          impCost: impCostInit * Math.pow(1.07, this.state.imps),
+        });
+
+      }
+    } else if (demonName == 'gob') {
+      if (this.state.souls >= this.state.gobCost) {
+        this.setState({
+          souls: this.state.souls - this.state.gobCost,
+          gobs: this.state.gobs + 1
+        });
+      }
+    };
+  }
+
+  demonIncrement = () => {
     this.setState({
-      souls: this.state.souls + this.state.imps,
-      totalSouls: this.state.totalSouls + this.state.imps
+      souls:
+        this.state.souls
+        + this.state.imps
+        + (this.state.gobs * 2),
+      totalSouls:
+        this.state.totalSouls
+        + this.state.imps
+        + (this.state.gobs * 2),
     })
-  }
-
-  buyImp = () => {
-    if (this.state.souls >= this.state.impCost) {
-      this.setState({
-        souls: this.state.souls - this.state.impCost,
-        imps: this.state.imps + 1
-      });
-    }
-  }
-
-  gobIncrement = () => {
-    this.setState({
-      souls: this.state.souls + this.state.gobs,
-      gobCost: this.state.gobs * 2,
-      totalSouls: this.state.totalSouls + this.state.gobs
-    })
-  }
-
-  buyGob = () => {
-    if (this.state.souls >= this.state.gobCost) {
-      this.setState({
-        souls: this.state.souls - this.state.gobCost,
-        gobs: this.state.gobs + 1
-      });
-    }
-  }
-
-  buyDemon = (props) => {
   }
 
   saveGame = () => {
@@ -101,7 +102,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    var tick = setInterval(this.impIncrement, 1000);
+    var tick = setInterval(this.demonIncrement, 1000);
     this.setState({tick: tick});
   }
 
@@ -121,16 +122,28 @@ class App extends Component {
         </div>
 
         <div className="App-purchases">
+
           <div className="App-demons">
             Imps: {this.state.imps}<br />
             Cost: {this.state.impCost}<br />
-            <button className="App-demon-button" onClick={this.buyImp}>Buy Imp</button>
+            <button
+              className="App-demon-button"
+              onClick={
+                () => this.buyDemon('imp')
+              }
+            > Buy Imp </button>
           </div>
+
           <div className="App-demons">
             Goblins: {this.state.gobs}<br />
             Cost: {this.state.gobCost}<br />
-            <button className="App-demon-button" onClick={this.buyGob}>Buy Goblin</button>
+            <button
+              className="App-demon-button"
+              onClick={
+                () => this.buyDemon('gob')
+              }> Buy Goblin </button>
           </div>
+
         </div>
 
         <div>
