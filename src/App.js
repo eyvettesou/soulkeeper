@@ -3,7 +3,19 @@ import './App.css';
 import soulsPortal from './images/soulsportal.gif';
 
 const impCostInit = 10;
-const gobCostInit = 50;
+const gobCostInit = 100;
+const jackCostInit = 666;
+const wraithCostInit = 5000;
+{/* 
+imp
+gob
+jackal
+wraith
+succubus
+warlock
+demon warlord
+fallen angel
+*/}
 
 class App extends Component {
   constructor(props){
@@ -12,8 +24,16 @@ class App extends Component {
     window.save = JSON.parse(localStorage.getItem('save')) || {
       souls: "0",
       totalSouls: "0",
+
       imps: "0",
       gobs: "0",
+      jacks: "0",
+      wraiths: "0",
+
+      impCost: impCostInit,
+      gobCost: gobCostInit,
+      jackCost: jackCostInit,
+      wraithCost: wraithCostInit,
     };
 
     this.state={
@@ -23,9 +43,13 @@ class App extends Component {
 
       imps: parseInt(window.save.imps, 10),
       gobs: parseInt(window.save.gobs, 10),
+      jacks: parseInt(window.save.jacks, 10),
+      wraiths: parseInt(window.save.wraiths, 10),
 
-      impCost: impCostInit,
-      gobCost: gobCostInit,
+      impCost: parseInt(window.save.impCost, 10),
+      gobCost: parseInt(window.save.gobCost, 10),
+      jackCost: parseInt(window.save.jackCost, 10),
+      wraithCost: parseInt(window.save.wraithCost, 10),
     }
   }
 
@@ -39,20 +63,36 @@ class App extends Component {
   }
 
   buyDemon = (demonName) => {
-    if (demonName == 'imp') {
+    if (demonName === 'imp') {
       if (this.state.souls >= this.state.impCost) {
         this.setState({
           souls: this.state.souls - this.state.impCost,
           imps: this.state.imps + 1,
-          impCost: impCostInit * Math.pow(1.07, this.state.imps),
+          impCost: Math.round(impCostInit * Math.pow(1.20, this.state.imps)),
         });
-
       }
-    } else if (demonName == 'gob') {
+    } else if (demonName === 'gob') {
       if (this.state.souls >= this.state.gobCost) {
         this.setState({
           souls: this.state.souls - this.state.gobCost,
-          gobs: this.state.gobs + 1
+          gobs: this.state.gobs + 1,
+          gobCost: Math.round(gobCostInit * Math.pow(1.15, this.state.gobs)),
+        });
+      }
+    } else if (demonName === 'jack') {
+      if (this.state.souls >= this.state.jackCost) {
+        this.setState({
+          souls: this.state.souls - this.state.jackCost,
+          gobs: this.state.jacks + 1,
+          gobCost: Math.round(jackCostInit * Math.pow(1.08, this.state.jacks)),
+        });
+      }
+    } else if (demonName === 'wraith') {
+      if (this.state.souls >= this.state.wraithCost) {
+        this.setState({
+          souls: this.state.souls - this.state.wraithCost,
+          gobs: this.state.wraiths + 1,
+          gobCost: Math.round(wraithCostInit * Math.pow(1.18, this.state.wraiths)),
         });
       }
     };
@@ -63,11 +103,15 @@ class App extends Component {
       souls:
         this.state.souls
         + this.state.imps
-        + (this.state.gobs * 2),
+        + (this.state.gobs * 5)
+        + (this.state.jacks * 25)
+        + (this.state.wraiths * 150),
       totalSouls:
         this.state.totalSouls
         + this.state.imps
-        + (this.state.gobs * 2),
+        + (this.state.gobs * 5)
+        + (this.state.jacks * 25)
+        + (this.state.wraiths * 150),
     })
   }
 
@@ -75,9 +119,17 @@ class App extends Component {
     this.setState({
       save: {
         souls: this.state.souls,
+        totalSouls: this.state.totalSouls,
+
         imps: this.state.imps,
         gobs: this.state.gobs,
-        totalSouls: this.state.totalSouls,
+        jacks: this.state.jacks,
+        wraiths: this.state.wraiths,
+
+        impCost: this.state.impCost,
+        gobCost: this.state.gobCost,
+        jackCost: this.state.jackCost,
+        wraithCost: this.state.wraithCost,
       }
     })
 
@@ -87,14 +139,31 @@ class App extends Component {
   resetGame = () => {
     this.setState({
       souls: 0,
+      totalSouls: 0,
+
       imps: 0,
       gobs: 0,
-      totalSouls: 0,
+      jacks: 0,
+      wraiths: 0,
+
+      impCost: impCostInit,
+      gobCost: gobCostInit,
+      jackCost: jackCostInit,
+      wraithCost: wraithCostInit,
+      
       save: {
         souls: "0",
         totalSouls: "0",
+
         imps: "0",
         gobs: "0",
+        jacks: "0",
+        wraiths: "0",
+
+        impCost: impCostInit,
+        gobCost: gobCostInit,
+        jackCost: jackCostInit,
+        wraithCost: wraithCostInit,
       }
     })
 
