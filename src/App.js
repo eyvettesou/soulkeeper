@@ -6,18 +6,22 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    window.totalSouls = localStorage.getItem('totalSouls') || "0";
-    window.souls = localStorage.getItem('souls') || "0";
-    window.imps = localStorage.getItem('imps') || "0";
-    window.gobs = localStorage.getItem('gobs') || "0";
+    window.save = JSON.parse(localStorage.getItem('save')) || {
+      souls: "0",
+      totalSouls: "0",
+      imps: "0",
+      gobs: "0",
+    };
 
     this.state={
-      souls: parseInt(window.souls, 10),
-      imps: parseInt(window.imps, 10),
+      souls: parseInt(window.save.souls, 10),
+      imps: parseInt(window.save.imps, 10),
       impCost: 10,
-      gobs: parseInt(window.gobs, 10),
+      gobs: parseInt(window.save.gobs, 10),
       gobCost: 100,
-      totalSouls: parseInt(window.totalSouls, 10),
+      totalSouls: parseInt(window.save.totalSouls, 10),
+      save: window.save,
+      demonName: '',
     }
   }
 
@@ -62,25 +66,38 @@ class App extends Component {
       });
     }
   }
+
+  buyDemon = (props) => {
+  }
+
   saveGame = () => {
-    localStorage.setItem('souls', this.state.souls);
-    localStorage.setItem('imps', this.state.imps);
-    localStorage.setItem('gobs', this.state.gobs);
-    localStorage.setItem('totalSouls', this.state.totalSouls);
+    this.setState({
+      save: {
+        souls: this.state.souls,
+        imps: this.state.imps,
+        gobs: this.state.gobs,
+        totalSouls: this.state.totalSouls,
+      }
+    })
+
+    localStorage.setItem('save', JSON.stringify(this.state.save));
   }
 
   resetGame = () => {
-    localStorage.setItem('souls', 0);
-    localStorage.setItem('imps', 0);
-    localStorage.setItem('gobs', 0);
-    localStorage.setItem('totalSouls', 0);
-    
     this.setState({
       souls: 0,
       imps: 0,
       gobs: 0,
-      totalSouls: 0
+      totalSouls: 0,
+      save: {
+        souls: "0",
+        totalSouls: "0",
+        imps: "0",
+        gobs: "0",
+      }
     })
+
+    localStorage.setItem('save', JSON.stringify(this.state.save));
   }
 
   componentDidMount() {
@@ -95,25 +112,27 @@ class App extends Component {
           Total Souls Collected:
           {this.state.totalSouls}
         </div>
-        <div className="App-souls">
-          <div>
-            {this.state.souls}
 
-          </div>
+        <div className="App-souls">
+          {this.state.souls}
           <a onClick={this.soulClick}>
             <img src={soulsPortal} alt="soulsPortal" />
           </a>
         </div>
+
         <div className="App-purchases">
-          Imps: {this.state.imps}<br />
-          Cost: {this.state.impCost}<br />
-          <button onClick={this.buyImp}>Buy Imp</button>
+          <div className="App-demons">
+            Imps: {this.state.imps}<br />
+            Cost: {this.state.impCost}<br />
+            <button className="App-demon-button" onClick={this.buyImp}>Buy Imp</button>
+          </div>
+          <div className="App-demons">
+            Goblins: {this.state.gobs}<br />
+            Cost: {this.state.gobCost}<br />
+            <button className="App-demon-button" onClick={this.buyGob}>Buy Goblin</button>
+          </div>
         </div>
-        <div className="App-purchases">
-          Goblins: {this.state.gobs}<br />
-          Cost: {this.state.gobCost}<br />
-          <button onClick={this.buyGob}>Buy Goblin</button>
-        </div>
+
         <div>
           <button onClick={this.saveGame}>Save Game</button>
           <button onClick={this.resetGame}>Reset Game</button>

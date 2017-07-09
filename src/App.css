@@ -1,25 +1,34 @@
 .App {
   text-align: center;
   height: auto;
-  background-color: blue;
+  /*background-color: blue;*/
 }
 
 .App-souls {
-  background-color: green;
+  /*background-color: green;*/
   display: inline-flex;
+  flex-direction: column;
   padding: 1em;
   margin: 1em;
 }
 
 .App-purchases {
-  background-color: red;
-  display: inline-flex;
+  /*background-color: red;*/
+  display: inline-flex;;
+  flex-direction: column;
   padding: 1em;
   margin: 1em;
 }
 
-.App-intro {
-  font-size: large;
+.App-demons {
+  /*background-color: pink;*/
+  display: flex;
+  padding: 1em;
+  margin: 1em;
+}
+
+.App-demon-button {
+  margin: 1em;
 }
 
 @keyframes App-logo-spin {
