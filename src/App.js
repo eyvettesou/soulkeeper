@@ -84,16 +84,16 @@ class App extends Component {
       if (this.state.souls >= this.state.jackCost) {
         this.setState({
           souls: this.state.souls - this.state.jackCost,
-          gobs: this.state.jacks + 1,
-          gobCost: Math.round(jackCostInit * Math.pow(1.08, this.state.jacks)),
+          jacks: this.state.jacks + 1,
+          jackCost: Math.round(jackCostInit * Math.pow(1.08, this.state.jacks)),
         });
       }
     } else if (demonName === 'wraith') {
       if (this.state.souls >= this.state.wraithCost) {
         this.setState({
           souls: this.state.souls - this.state.wraithCost,
-          gobs: this.state.wraiths + 1,
-          gobCost: Math.round(wraithCostInit * Math.pow(1.18, this.state.wraiths)),
+          wraiths: this.state.wraiths + 1,
+          wraithCost: Math.round(wraithCostInit * Math.pow(1.18, this.state.wraiths)),
         });
       }
     };
@@ -234,6 +234,26 @@ class App extends Component {
                 onClick={
                   () => this.buyDemon('gob')
                 }> Buy Goblin </button>
+            </div>
+
+            <div className="App-demons">
+              Jackals: {this.state.jacks}<br />
+              Cost: {this.state.jackCost}<br />
+              <button
+                className="App-demon-button"
+                onClick={
+                  () => this.buyDemon('jack')
+                }> Buy Jackal </button>
+            </div>
+
+            <div className="App-demons">
+              Wraiths: {this.state.wraiths}<br />
+              Cost: {this.state.wraithCost}<br />
+              <button
+                className="App-demon-button"
+                onClick={
+                  () => this.buyDemon('wraith')
+                }> Buy Wraith </button>
             </div>
           </div>
 
