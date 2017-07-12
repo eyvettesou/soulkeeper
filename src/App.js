@@ -7,7 +7,13 @@ const impCostInit = 10;
 const gobCostInit = 100;
 const jackCostInit = 666;
 const wraithCostInit = 5000;
-{/* 
+
+const impCostRatio = 1.2;
+const gobCostRatio = 1.15;
+const jackCostRatio = 1.08;
+const wraithCostRatio = 1.18;
+
+{/*
 imp
 gob
 jackal
@@ -35,12 +41,18 @@ class App extends Component {
       gobCost: gobCostInit,
       jackCost: jackCostInit,
       wraithCost: wraithCostInit,
+
+      impMultiplier: "1",
     };
 
     this.state={
       souls: parseInt(window.save.souls, 10),
       totalSouls: parseInt(window.save.totalSouls, 10),
       save: window.save,
+
+      demon: {
+        michael: 1,
+      },
 
       imps: parseInt(window.save.imps, 10),
       gobs: parseInt(window.save.gobs, 10),
@@ -51,6 +63,8 @@ class App extends Component {
       gobCost: parseInt(window.save.gobCost, 10),
       jackCost: parseInt(window.save.jackCost, 10),
       wraithCost: parseInt(window.save.wraithCost, 10),
+
+      impMultiplier: parseInt(window.save.impMultiplier, 10),
     }
   }
 
@@ -63,47 +77,30 @@ class App extends Component {
     })
   }
 
-  buyDemon = (demonName) => {
-    if (demonName === 'imp') {
-      if (this.state.souls >= this.state.impCost) {
-        this.setState({
-          souls: this.state.souls - this.state.impCost,
-          imps: this.state.imps + 1,
-          impCost: Math.round(impCostInit * Math.pow(1.20, this.state.imps)),
-        });
-      }
-    } else if (demonName === 'gob') {
-      if (this.state.souls >= this.state.gobCost) {
-        this.setState({
-          souls: this.state.souls - this.state.gobCost,
-          gobs: this.state.gobs + 1,
-          gobCost: Math.round(gobCostInit * Math.pow(1.15, this.state.gobs)),
-        });
-      }
-    } else if (demonName === 'jack') {
-      if (this.state.souls >= this.state.jackCost) {
-        this.setState({
-          souls: this.state.souls - this.state.jackCost,
-          jacks: this.state.jacks + 1,
-          jackCost: Math.round(jackCostInit * Math.pow(1.08, this.state.jacks)),
-        });
-      }
-    } else if (demonName === 'wraith') {
-      if (this.state.souls >= this.state.wraithCost) {
-        this.setState({
-          souls: this.state.souls - this.state.wraithCost,
-          wraiths: this.state.wraiths + 1,
-          wraithCost: Math.round(wraithCostInit * Math.pow(1.18, this.state.wraiths)),
-        });
-      }
-    };
+  buyDemon = (demonName, demonCost, demonCostInit, ratio) => {
+    if (this.state.souls >= this.state[demonCost]) {
+      this.setState({
+        souls: this.state.souls - this.state[demonCost],
+        [demonName]: this.state[demonName] + 1,
+        [demonCost]: Math.round(demonCostInit * Math.pow(ratio, this.state[demonName])),
+      });
+    }
+  }
+
+  upgradeImprovements = () => {
+    if (this.state.souls >= 500) {
+      this.setState({
+        souls: this.state.souls - 500,
+        impMultiplier: 2,
+      });
+    }
   }
 
   demonIncrement = () => {
     this.setState({
       souls:
         this.state.souls
-        + this.state.imps
+        + (this.state.imps * this.state.impMultiplier)
         + (this.state.gobs * 5)
         + (this.state.jacks * 25)
         + (this.state.wraiths * 150),
@@ -131,6 +128,8 @@ class App extends Component {
         gobCost: this.state.gobCost,
         jackCost: this.state.jackCost,
         wraithCost: this.state.wraithCost,
+
+        impMultiplier: this.state.impMultiplier,
       }
     })
 
@@ -151,7 +150,9 @@ class App extends Component {
       gobCost: gobCostInit,
       jackCost: jackCostInit,
       wraithCost: wraithCostInit,
-      
+
+      impMultiplier: 1,
+
       save: {
         souls: "0",
         totalSouls: "0",
@@ -165,6 +166,8 @@ class App extends Component {
         gobCost: gobCostInit,
         jackCost: jackCostInit,
         wraithCost: wraithCostInit,
+
+        impMultiplier: 1,
       }
     })
 
@@ -201,7 +204,11 @@ class App extends Component {
           <div className = "App-purchases">
             <h2>Upgrades</h2>
             <div className = "App-upgrades">
-              <a>
+              <a
+                onClick={
+                  () => this.upgradeImprovements()
+                }>
+                Imp-rovements<br/>
                 <Icon type="caret-up" style={{ fontSize: 45, margin: '0.2em' }} />
               </a>
               <a>
@@ -221,7 +228,7 @@ class App extends Component {
               <button
                 className="App-demon-button"
                 onClick={
-                  () => this.buyDemon('imp')
+                  () => this.buyDemon('imps', 'impCost', impCostInit, impCostRatio)
                 }
               > Buy Imp </button>
             </div>
@@ -232,7 +239,7 @@ class App extends Component {
               <button
                 className="App-demon-button"
                 onClick={
-                  () => this.buyDemon('gob')
+                  () => this.buyDemon('gobs', 'gobCost', gobCostInit, gobCostRatio)
                 }> Buy Goblin </button>
             </div>
 
@@ -242,7 +249,7 @@ class App extends Component {
               <button
                 className="App-demon-button"
                 onClick={
-                  () => this.buyDemon('jack')
+                  () => this.buyDemon('jacks', 'jackCost', jackCostInit, jackCostRatio)
                 }> Buy Jackal </button>
             </div>
 
@@ -252,7 +259,7 @@ class App extends Component {
               <button
                 className="App-demon-button"
                 onClick={
-                  () => this.buyDemon('wraith')
+                  () => this.buyDemon('wraiths', 'wraithCost', wraithCostInit, wraithCostRatio)
                 }> Buy Wraith </button>
             </div>
           </div>
