@@ -31,6 +31,8 @@ class App extends Component {
     window.save = JSON.parse(localStorage.getItem('save')) || {
       souls: "0",
       totalSouls: "0",
+      lifetimeSouls: "0",
+      angelSouls: "0",
 
       imps: "0",
       gobs: "0",
@@ -46,13 +48,12 @@ class App extends Component {
     };
 
     this.state={
-      souls: parseInt(window.save.souls, 10),
-      totalSouls: parseInt(window.save.totalSouls, 10),
       save: window.save,
 
-      demon: {
-        michael: 1,
-      },
+      souls: parseInt(window.save.souls, 10),
+      totalSouls: parseInt(window.save.totalSouls, 10),
+      lifetimeSouls: parseInt(window.save.lifetimeSouls, 10),
+      angelSouls: parseInt(window.save.angelSouls, 10),
 
       imps: parseInt(window.save.imps, 10),
       gobs: parseInt(window.save.gobs, 10),
@@ -73,7 +74,7 @@ class App extends Component {
 
     this.setState({
       souls: this.state.souls + clickIncrement,
-      totalSouls: this.state.totalSouls + clickIncrement
+      totalSouls: this.state.totalSouls + clickIncrement,
     })
   }
 
@@ -91,25 +92,28 @@ class App extends Component {
     if (this.state.souls >= 500) {
       this.setState({
         souls: this.state.souls - 500,
-        impMultiplier: 2,
+        impMultiplier: this.state.gobs,
       });
     }
+  }
+
+  soulsPerSecond = () => {
+    return(
+      (
+        (this.state.imps * this.state.impMultiplier)
+        + (this.state.gobs * 5)
+        + (this.state.jacks * 25)
+        + (this.state.wraiths * 150)
+      ) * ( 1 + 0.02 * this.state.angelSouls )
+    )
   }
 
   demonIncrement = () => {
     this.setState({
       souls:
-        this.state.souls
-        + (this.state.imps * this.state.impMultiplier)
-        + (this.state.gobs * 5)
-        + (this.state.jacks * 25)
-        + (this.state.wraiths * 150),
+        this.state.souls + this.soulsPerSecond(),
       totalSouls:
-        this.state.totalSouls
-        + this.state.imps
-        + (this.state.gobs * 5)
-        + (this.state.jacks * 25)
-        + (this.state.wraiths * 150),
+        this.state.totalSouls + this.soulsPerSecond(),
     })
   }
 
@@ -118,6 +122,8 @@ class App extends Component {
       save: {
         souls: this.state.souls,
         totalSouls: this.state.totalSouls,
+        lifetimeSouls: this.state.lifetimeSouls,
+        angelSouls: this.state.angelSouls,
 
         imps: this.state.imps,
         gobs: this.state.gobs,
@@ -136,10 +142,12 @@ class App extends Component {
     localStorage.setItem('save', JSON.stringify(this.state.save));
   }
 
-  resetGame = () => {
+  resetGame = (lifetime, angel) => {
     this.setState({
       souls: 0,
       totalSouls: 0,
+      lifetimeSouls: lifetime,
+      angelSouls: angel,
 
       imps: 0,
       gobs: 0,
@@ -156,6 +164,8 @@ class App extends Component {
       save: {
         souls: "0",
         totalSouls: "0",
+        lifetimeSouls: lifetime,
+        angelSouls: angel,
 
         imps: "0",
         gobs: "0",
@@ -167,11 +177,19 @@ class App extends Component {
         jackCost: jackCostInit,
         wraithCost: wraithCostInit,
 
-        impMultiplier: 1,
+        impMultiplier: "1",
       }
     })
 
     localStorage.setItem('save', JSON.stringify(this.state.save));
+  }
+
+  prestigeGame = () => {
+    this.setState({
+      lifetimeSouls: this.state.lifetimeSouls + this.state.totalSouls,
+      angelSouls: this.state.angelSouls + this.state.totalSouls / 1000000,
+    })
+    this.resetGame(this.state.lifetimeSouls, this.state.angelSouls);
   }
 
   componentDidMount() {
@@ -194,8 +212,13 @@ class App extends Component {
           </div>
 
           <div>
+            <button onClick={
+              () => this.resetGame(this.state.lifetimeSouls, this.state.angelSouls)
+            }>Prestige</button>
             <button onClick={this.saveGame}>Save Game</button>
-            <button onClick={this.resetGame}>Reset Game</button>
+            <button onClick={
+              () => this.resetGame(0, 0)
+            }>Reset Game</button>
           </div>
         </div>
 
