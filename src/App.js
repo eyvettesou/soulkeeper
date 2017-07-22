@@ -51,6 +51,7 @@ class App extends Component {
       save: window.save,
 
       souls: parseInt(window.save.souls, 10),
+      soulsPerSecond: "0",
       totalSouls: parseInt(window.save.totalSouls, 10),
       lifetimeSouls: parseInt(window.save.lifetimeSouls, 10),
       angelSouls: parseInt(window.save.angelSouls, 10),
@@ -114,6 +115,8 @@ class App extends Component {
         this.state.souls + this.soulsPerSecond(),
       totalSouls:
         this.state.totalSouls + this.soulsPerSecond(),
+      soulsPerSecond:
+        this.soulsPerSecond(),
     })
   }
 
@@ -202,27 +205,27 @@ class App extends Component {
       <div className="App">
         <div className="App-left">
           <div>
-            Total Souls Collected:
-            {this.state.totalSouls}
+            Total Souls Collected: 
+            {this.state.totalSouls.toLocaleString()}
           </div>
-
-          <div>
+          <div className="App-game">
             <button onClick={
               () => this.resetGame(this.state.lifetimeSouls, this.state.angelSouls)
-            }>Prestige</button>
-            <button onClick={this.saveGame}>Save Game</button>
+            }  className="App-game-button">Prestige</button>
+            <button onClick={this.saveGame} className="App-game-button">Save Game</button>
             <button onClick={
               () => this.resetGame(0, 0)
-            }>Reset Game</button>
+            }  className="App-game-button">Reset Game</button>
           </div>
         </div>
+
         <div className="App-middle">
           <a onClick={this.soulClick}>
             <img src={soulsPortal} alt="soulsPortal" />
           </a>
           <div className="App-soul-counters">
-            <span style={{ display: 'block' }}>{this.state.souls}</span>
-            <span style={{ fontSize: '0.5em' }}>souls per second: {this.soulsPerSecond}</span>
+            <span style={{ display: 'block' }}>{this.state.souls.toLocaleString()}</span>
+            <span style={{ fontSize: '0.5em' }}>souls per second: {this.state.soulsPerSecond.toLocaleString()}</span>
           </div>
         </div>
 
