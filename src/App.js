@@ -201,11 +201,6 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-left">
-          {this.state.souls}
-          <a onClick={this.soulClick}>
-            <img src={soulsPortal} alt="soulsPortal" />
-          </a>
-
           <div>
             Total Souls Collected:
             {this.state.totalSouls}
@@ -221,33 +216,49 @@ class App extends Component {
             }>Reset Game</button>
           </div>
         </div>
+        <div className="App-middle">
+          <a onClick={this.soulClick}>
+            <img src={soulsPortal} alt="soulsPortal" />
+          </a>
+          <div className="App-soul-counters">
+            <span style={{ display: 'block' }}>{this.state.souls}</span>
+            <span style={{ fontSize: '0.5em' }}>souls per second: {this.soulsPerSecond}</span>
+          </div>
+        </div>
 
         <div className ="App-right">
 
           <div className = "App-purchases">
             <h2>Upgrades</h2>
             <div className = "App-upgrades">
-              <a
-                onClick={
-                  () => this.upgradeImprovements()
-                }>
-                Imp-rovements<br/>
-                <Icon type="caret-up" style={{ fontSize: 45, margin: '0.2em' }} />
-              </a>
-              <a>
-                <Icon type="star" style={{ fontSize: 45, margin: '0.2em' }} />
-              </a>
-              <a>
-                <Icon type="team" style={{ fontSize: 45, margin: '0.2em' }} />
-              </a>
+              <div className="App-upgrade-icons">
+                <a onClick={ () => this.upgradeImprovements() } >
+                  <Icon type="caret-up" style={{ fontSize: 45 }} />
+                </a>
+                <span className="App-upgrade-description">
+                  Imp-rovements
+                </span>
+              </div>
+              <div className="App-upgrade-icons">
+                <a>
+                  <Icon type="star" style={{ fontSize: 45 }} />
+                </a>
+                <span className="App-upgrade-description">Oh My Goblin!</span>
+              </div>
+              <div className="App-upgrade-icons">
+                <a> <Icon type="team" style={{ fontSize: 45 }} /> </a>
+                <span className="App-upgrade-description">Grapes of Wraiths</span>
+              </div>
             </div>
           </div>
 
           <div className="App-purchases">
             <h2>Demons</h2>
             <div className="App-demons">
-              Imps: {this.state.imps}<br />
-              Cost: {this.state.impCost}<br />
+              <div className="App-demon-description">
+                Imps: {this.state.imps}<br />
+                Cost: {this.state.impCost}<br />
+              </div>
               <button
                 className="App-demon-button"
                 onClick={
@@ -257,8 +268,10 @@ class App extends Component {
             </div>
 
             <div className="App-demons">
-              Goblins: {this.state.gobs}<br />
-              Cost: {this.state.gobCost}<br />
+              <div className="App-demon-description">
+                Goblins: {this.state.gobs}<br />
+                Cost: {this.state.gobCost}<br />
+              </div>
               <button
                 className="App-demon-button"
                 onClick={
@@ -267,8 +280,10 @@ class App extends Component {
             </div>
 
             <div className="App-demons">
-              Jackals: {this.state.jacks}<br />
-              Cost: {this.state.jackCost}<br />
+              <div className="App-demon-description">
+                Jackals: {this.state.jacks}<br />
+                Cost: {this.state.jackCost}<br />
+              </div>
               <button
                 className="App-demon-button"
                 onClick={
@@ -277,8 +292,10 @@ class App extends Component {
             </div>
 
             <div className="App-demons">
-              Wraiths: {this.state.wraiths}<br />
-              Cost: {this.state.wraithCost}<br />
+              <div className="App-demon-description">
+                Wraiths: {this.state.wraiths}<br />
+                Cost: {this.state.wraithCost}<br />
+              </div>
               <button
                 className="App-demon-button"
                 onClick={
