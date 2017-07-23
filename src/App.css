@@ -61,6 +61,10 @@ img {
   cursor: hand;
 }
 
+.App-game-button:focus, .App-demon-button:focus {
+  outline: none;
+}
+
 .App-middle {
   display: inline-flex;
   flex-direction: column;
@@ -103,7 +107,7 @@ img {
 
 .App-upgrade-icons .App-upgrade-description {
   visibility: hidden;
-  width: 120px;
+  width: 200px;
   background-color: #8b3535;
   color: #fff;
   text-align: center;
@@ -114,20 +118,21 @@ img {
   /* Position of tooltip; */
   position: absolute;
   z-index: 1;
-  bottom: 120%;
+  top: 100%;
+  /*bottom: 120%;*/
   left: 50%;
-  margin-left: -60px;
+  margin-left: -100px;
 }
 
 .App-upgrade-icons .App-upgrade-description::after {
   content: "";
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   left: 50%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #8b3535 transparent transparent transparent;
+  border-color: transparent transparent #8b3535 transparent;
 }
 
 .App-upgrade-icons:hover .App-upgrade-description {

@@ -93,7 +93,7 @@ class App extends Component {
     if (this.state.souls >= 500) {
       this.setState({
         souls: this.state.souls - 500,
-        impMultiplier: this.state.gobs,
+        impMultiplier: 2,
       });
     }
   }
@@ -112,9 +112,9 @@ class App extends Component {
   demonIncrement = () => {
     this.setState({
       souls:
-        this.state.souls + this.soulsPerSecond(),
+        this.state.souls + this.soulsPerSecond() * 0.1,
       totalSouls:
-        this.state.totalSouls + this.soulsPerSecond(),
+        this.state.totalSouls + this.soulsPerSecond() * 0.1,
       soulsPerSecond:
         this.soulsPerSecond(),
     })
@@ -140,9 +140,9 @@ class App extends Component {
 
         impMultiplier: this.state.impMultiplier,
       }
-    })
-
-    localStorage.setItem('save', JSON.stringify(this.state.save));
+    }, () => {
+      this.handleCache();
+    });
   }
 
   resetGame = (lifetime, angel) => {
@@ -182,36 +182,39 @@ class App extends Component {
 
         impMultiplier: "1",
       }
-    })
-
-    localStorage.setItem('save', JSON.stringify(this.state.save));
+    }, () => {
+      this.handleCache();
+    });
   }
 
   prestigeGame = () => {
     this.setState({
       lifetimeSouls: this.state.lifetimeSouls + this.state.totalSouls,
-      angelSouls: this.state.angelSouls + this.state.totalSouls / 1000000,
-    })
-    this.resetGame(this.state.lifetimeSouls, this.state.angelSouls);
+      angelSouls: this.state.angelSouls + Math.floor(this.state.totalSouls/10000),
+    }, () => {
+      this.resetGame(this.state.lifetimeSouls, this.state.angelSouls);
+    });
+  }
+
+  handleCache = () => {
+    localStorage.setItem('save', JSON.stringify(this.state.save));
   }
 
   componentDidMount() {
-    var tick = setInterval(this.demonIncrement, 1000);
-    this.setState({tick: tick});
+    setInterval(this.demonIncrement, 100);
   }
+
 
   render() {
     return (
       <div className="App">
         <div className="App-left">
           <div>
-            Total Souls Collected: 
-            {this.state.totalSouls.toLocaleString()}
+            Total Souls Collected:
+            {Math.round(this.state.totalSouls).toLocaleString()}
           </div>
           <div className="App-game">
-            <button onClick={
-              () => this.resetGame(this.state.lifetimeSouls, this.state.angelSouls)
-            }  className="App-game-button">Prestige</button>
+            <button onClick={this.prestigeGame}  className="App-game-button">Prestige</button>
             <button onClick={this.saveGame} className="App-game-button">Save Game</button>
             <button onClick={
               () => this.resetGame(0, 0)
@@ -224,7 +227,7 @@ class App extends Component {
             <img src={soulsPortal} alt="soulsPortal" />
           </a>
           <div className="App-soul-counters">
-            <span style={{ display: 'block' }}>{this.state.souls.toLocaleString()}</span>
+            <span style={{ display: 'block' }}>{Math.round(this.state.souls).toLocaleString()}</span>
             <span style={{ fontSize: '0.5em' }}>souls per second: {this.state.soulsPerSecond.toLocaleString()}</span>
           </div>
         </div>
@@ -239,7 +242,9 @@ class App extends Component {
                   <Icon type="caret-up" style={{ fontSize: 45 }} />
                 </a>
                 <span className="App-upgrade-description">
-                  Imp-rovements
+                  <b>Imp-rovements</b><br />
+                  Double Imp Production<br />
+                  Cost: 500 Souls
                 </span>
               </div>
               <div className="App-upgrade-icons">
