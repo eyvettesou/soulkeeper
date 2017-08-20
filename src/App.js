@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { Icon } from 'antd';
 import soulsPortal from './images/soulsportal.gif';
+import Demon from './Demon';
 
 const impCostInit = 10;
 const gobCostInit = 100;
@@ -12,6 +13,17 @@ const impCostRatio = 1.2;
 const gobCostRatio = 1.15;
 const jackCostRatio = 1.08;
 const wraithCostRatio = 1.18;
+
+let demonsCostInit = {
+  imp: 10,
+  gob: 100
+}
+
+let demonsCostRatio = {
+  imp: 1.2,
+  gob: 1.15
+}
+
 
 {/*
 imp
@@ -56,6 +68,22 @@ class App extends Component {
       lifetimeSouls: parseInt(window.save.lifetimeSouls, 10),
       angelSouls: parseInt(window.save.angelSouls, 10),
 
+
+      demon: [
+        {
+          name: 'imps',
+          quantity: parseInt(window.save.imps, 10),
+          cost: parseInt(window.save.impCost, 10),
+          ratio: demonsCostRatio.imp,
+        },
+        {
+          name: 'gobs',
+          quantity: parseInt(window.save.gobs, 10),
+          cost: parseInt(window.save.gobCost, 10),
+          ratio: demonsCostRatio.gob,
+        },
+      ],
+
       imps: parseInt(window.save.imps, 10),
       gobs: parseInt(window.save.gobs, 10),
       jacks: parseInt(window.save.jacks, 10),
@@ -88,6 +116,24 @@ class App extends Component {
       });
     }
   }
+
+  buyDemon2 = (demon, initCost) => {
+    const newDemonInformation = this.state.demon
+    console.log(newDemonInformation)
+    if (this.state.souls >= demon.cost) {
+      newDemonInformation[0].cost = Math.round(initCost * Math.pow(demon.ratio, demon.quantity));
+      newDemonInformation[0].quantity ++;
+      console.log(newDemonInformation[0])
+
+      this.setState({
+        demon: newDemonInformation,
+      })
+
+      console.log(this.state.demon);
+    };
+
+  }
+
 
   upgradeImprovements = () => {
     if (this.state.souls >= 500) {
@@ -200,15 +246,31 @@ class App extends Component {
     localStorage.setItem('save', JSON.stringify(this.state.save));
   }
 
+  renderStore = (index) => {
+    return <Demon
+      index={index}
+      demon={this.state.demon}
+    />
+  }
+
   componentDidMount() {
     setInterval(this.demonIncrement, 100);
   }
-
 
   render() {
     return (
       <div className="App">
         <div className="App-left">
+          {
+            this.state.demon
+              .map((name, index) => {
+                return (
+                  this.renderStore(index)
+                )
+              }
+            )
+          }
+
           <div>
             Total Souls Collected:
             {Math.round(this.state.totalSouls).toLocaleString()}
@@ -264,21 +326,21 @@ class App extends Component {
             <h2>Demons</h2>
             <div className="App-demons">
               <div className="App-demon-description">
-                Imps: {this.state.imps}<br />
-                Cost: {this.state.impCost}<br />
+                {this.state.demon[0].name}: {this.state.demon[0].quantity}<br />
+                Cost: {this.state.demon[0].cost}<br />
               </div>
               <button
                 className="App-demon-button"
                 onClick={
-                  () => this.buyDemon('imps', 'impCost', impCostInit, impCostRatio)
+                  () => this.buyDemon2(this.state.demon[0], demonsCostInit.imp)
                 }
               > Buy Imp </button>
             </div>
 
             <div className="App-demons">
               <div className="App-demon-description">
-                Goblins: {this.state.gobs}<br />
-                Cost: {this.state.gobCost}<br />
+                {this.state.demon[1].name}: {this.state.demon[1].quantity}<br />
+                Cost: {this.state.demon[1].cost}<br />
               </div>
               <button
                 className="App-demon-button"
