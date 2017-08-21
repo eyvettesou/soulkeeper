@@ -1,25 +1,174 @@
+@import '~antd/dist/antd.css';
+
+a {
+  color: #4d0101;
+}
+
+a:hover {
+  color: #813232;
+}
+
+body {
+  background-color: #141414;
+  color: white;
+  font-size: 0.75em;
+  font-family: 'Slabo 27px', serif;
+}
+
+h2 {
+  text-align: left;
+  color: white;
+  font-size: 2em;
+  text-transform: uppercase;
+}
+
+img {
+  margin: 1em;
+}
+
 .App {
   text-align: center;
   height: auto;
-  background-color: blue;
+  display: flex;
+  margin-top: 4em;
 }
 
-.App-souls {
-  background-color: green;
-  display: inline-flex;
+.App-left {
+  flex-grow: 1;
+  margin: 1em 0.5em 1em 1em;
+  max-width: 200px;
   padding: 1em;
+}
+
+.App-game {
   margin: 1em;
+}
+
+.App-game-button {
+  margin: 1em;
+  border-radius: 3px;
+  padding: 0.5em;
+  color: #FFF;
+  background-color: #4d0101;
+  border: none;
+  text-transform: uppercase;
+  max-width: 100px;
+}
+
+.App-game-button:hover {
+  background-color: #813232;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.App-game-button:focus, .App-demon-button:focus {
+  outline: none;
+}
+
+.App-middle {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 2;
+  padding: 1em;
+  margin: 1em 0.5em 1em 0.5em;
+  position: relative;
+}
+
+.App-soul-counters {
+  font-size: 3em;
+  font-family: 'Playfair Display SC', serif;
+}
+
+.App-right {
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 1em 1em 1em 0.5em;
 }
 
 .App-purchases {
-  background-color: red;
-  display: inline-flex;
-  padding: 1em;
   margin: 1em;
 }
 
-.App-intro {
-  font-size: large;
+.App-upgrades {
+  text-align: left;
+  margin: 1em;
+  /*background-color: pink;*/
+}
+
+.App-upgrade-icons {
+  margin: 1em;
+  display: inline-flex;
+  position: relative;
+  padding: 0.5em;
+  background-color: #070000;
+  border: 2px solid #8B3535;
+  border-radius: 1em;}
+
+.App-upgrade-icons .App-upgrade-description {
+  visibility: hidden;
+  width: 200px;
+  background-color: #8b3535;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  margin-top: 1em;
+
+  /* Position of tooltip; */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  /*bottom: 120%;*/
+  left: 50%;
+  margin-left: -100px;
+}
+
+.App-upgrade-icons .App-upgrade-description::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #8b3535 transparent;
+}
+
+.App-upgrade-icons:hover .App-upgrade-description {
+  visibility: visible;
+}
+
+.App-demons {
+  background-color: #070000;
+  display: flex;
+  padding: 1em;
+  margin: 1em;
+  border: 2px solid #8B3535;
+  border-radius: 1em;
+}
+
+.App-demon-description {
+  display: flex;
+  flex-grow: 1;
+}
+
+.App-demon-button {
+  margin-left: 1em;
+  border-radius: 5px;
+  padding: 1em;
+  color: #FFF;
+  background-color: #4d0101;
+  border: none;
+  text-transform: uppercase;
+  flex-grow: 2;
+  max-width: 150px;
+}
+
+.App-demon-button:hover {
+  background-color: #813232;
+  cursor: pointer;
+  cursor: hand;
 }
 
 @keyframes App-logo-spin {
