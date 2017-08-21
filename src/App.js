@@ -61,40 +61,18 @@ class App extends Component {
       totalSouls: "0",
       lifetimeSouls: "0",
       angelSouls: "0",
-
       demon: initialDemonStates,
-
       impMultiplier: "1",
     };
 
     this.state={
       save: window.save,
-
       souls: parseInt(window.save.souls, 10),
       soulsPerSecond: "0",
       totalSouls: parseInt(window.save.totalSouls, 10),
       lifetimeSouls: parseInt(window.save.lifetimeSouls, 10),
       angelSouls: parseInt(window.save.angelSouls, 10),
-
-      demon: {
-        imp: {
-          quantity: window.save.demon.imp.quantity,
-          cost: window.save.demon.imp.cost,
-        },
-        gob: {
-          quantity: window.save.demon.gob.quantity,
-          cost: window.save.demon.gob.cost,
-        },
-        jack: {
-          quantity: 0,
-          cost: 666,
-        },
-        wraith: {
-          quantity: 0,
-          cost: 1000,
-        },
-      },
-
+      demon: window.save.demon,
       impMultiplier: parseInt(window.save.impMultiplier, 10),
     }
   }
@@ -180,9 +158,7 @@ class App extends Component {
       totalSouls: 0,
       lifetimeSouls: lifetime,
       angelSouls: angel,
-
       demon: initialDemonStates,
-
       impMultiplier: 1,
 
       save: {
