@@ -14,27 +14,57 @@ const gobCostRatio = 1.15;
 const jackCostRatio = 1.08;
 const wraithCostRatio = 1.18;
 
-let demonsCostInit = {
-  imp: 10,
-  gob: 100
+let initialDemonDetails = {
+  imp: {
+    name: "Imp",
+    quantity: "0",
+    cost: "10",
+    ratio: 1.2,
+  },
+  gob: {
+    name: "Goblin",
+    quantity: "0",
+    cost: "100",
+    ratio: 1.2,
+  },
+  /*
+  jack: {
+    name: "Jackal",
+    quantity: "0",
+    cost: "666",
+    ratio: 1.08,
+  },
+  wraith: {
+    name: "Wraith",
+    quantity: "0",
+    cost: "5000",
+    ratio: 1.18,
+  },
+  */
 }
 
-let demonsCostRatio = {
-  imp: 1.2,
-  gob: 1.15
+let initialDemonStates = {
+  imp: {
+    quantity: initialDemonDetails.imp.quantity,
+    cost: initialDemonDetails.imp.cost,
+  },
+  gob: {
+    quantity: initialDemonDetails.gob.quantity,
+    cost: initialDemonDetails.gob.cost,
+  },
+  /*
+  // jack: {
+  //   quantity: initialDemonDetails.jack.quantity,
+  //   cost: initialDemonDetails.jack.cost,
+  // },
+  // wraith: {
+  //   quantity: initialDemonDetails.wraith.quantity,
+  //   cost: initialDemonDetails.wraith.cost,
+  // },
+  */
 }
 
-
-{/*
-imp
-gob
-jackal
-wraith
-succubus
-warlock
-demon warlord
-fallen angel
-*/}
+let demonTypeNames = Object.keys(initialDemonDetails);
 
 class App extends Component {
   constructor(props){
@@ -46,12 +76,14 @@ class App extends Component {
       lifetimeSouls: "0",
       angelSouls: "0",
 
+      demon: initialDemonStates,
+
       imps: "0",
       gobs: "0",
       jacks: "0",
       wraiths: "0",
 
-      impCost: impCostInit,
+      impCost: initialDemonDetails.imp.cost,
       gobCost: gobCostInit,
       jackCost: jackCostInit,
       wraithCost: wraithCostInit,
@@ -69,20 +101,26 @@ class App extends Component {
       angelSouls: parseInt(window.save.angelSouls, 10),
 
 
-      demon: [
-        {
-          name: 'imps',
-          quantity: parseInt(window.save.imps, 10),
-          cost: parseInt(window.save.impCost, 10),
-          ratio: demonsCostRatio.imp,
+      demon: {
+        imp: {
+          quantity: window.save.imps,
+          cost: window.save.impCost,
         },
-        {
-          name: 'gobs',
-          quantity: parseInt(window.save.gobs, 10),
-          cost: parseInt(window.save.gobCost, 10),
-          ratio: demonsCostRatio.gob,
+        gob: {
+          quantity: window.save.gobs,
+          cost: window.save.gobCost,
         },
-      ],
+        /*
+        // jack: {
+        //   quantity: parseInt(window.save.demon.jack.quantity, 10),
+        //   cost: parseInt(window.save.demon.jack.cost, 10),
+        // },
+        // wraith: {
+        //   quantity: parseInt(window.save.demon.wraith.quantity, 10),
+        //   cost: parseInt(window.save.demon.wraith.cost, 10),
+        // },
+        */
+      },
 
       imps: parseInt(window.save.imps, 10),
       gobs: parseInt(window.save.gobs, 10),
@@ -117,19 +155,19 @@ class App extends Component {
     }
   }
 
-  buyDemon2 = (demon, initCost) => {
-    const newDemonInformation = this.state.demon
-    console.log(newDemonInformation)
-    if (this.state.souls >= demon.cost) {
-      newDemonInformation[0].cost = Math.round(initCost * Math.pow(demon.ratio, demon.quantity));
-      newDemonInformation[0].quantity ++;
-      console.log(newDemonInformation[0])
+  buyDemon2 = (demon) => {
+    const demonInitial = initialDemonDetails[demon]
+    const demonType = this.state.demon[demon];
+    const newDemonInformation = this.state.demon;
+
+    if (this.state.souls >= demonType.cost) {
+      newDemonInformation[demon].cost = Math.round(demonInitial.cost * Math.pow(demonInitial.ratio, demonType.quantity));
+      newDemonInformation[demon].quantity ++;
 
       this.setState({
+        souls: this.state.souls - demonType.cost,
         demon: newDemonInformation,
       })
-
-      console.log(this.state.demon);
     };
 
   }
@@ -147,8 +185,8 @@ class App extends Component {
   soulsPerSecond = () => {
     return(
       (
-        (this.state.imps * this.state.impMultiplier)
-        + (this.state.gobs * 5)
+        (this.state.demon.imp.quantity * this.state.impMultiplier)
+        + (this.state.demon.gob.quantity * 5)
         + (this.state.jacks * 25)
         + (this.state.wraiths * 150)
       ) * ( 1 + 0.02 * this.state.angelSouls )
@@ -174,12 +212,14 @@ class App extends Component {
         lifetimeSouls: this.state.lifetimeSouls,
         angelSouls: this.state.angelSouls,
 
-        imps: this.state.imps,
+        demon: this.state.demon,
+
+        imps: this.state.demon.imp.quantity,
         gobs: this.state.gobs,
         jacks: this.state.jacks,
         wraiths: this.state.wraiths,
 
-        impCost: this.state.impCost,
+        impCost: this.state.demon.imp.cost,
         gobCost: this.state.gobCost,
         jackCost: this.state.jackCost,
         wraithCost: this.state.wraithCost,
@@ -198,12 +238,14 @@ class App extends Component {
       lifetimeSouls: lifetime,
       angelSouls: angel,
 
+      demon: initialDemonStates,
+
       imps: 0,
       gobs: 0,
       jacks: 0,
       wraiths: 0,
 
-      impCost: impCostInit,
+      impCost: initialDemonDetails.imp.cost,
       gobCost: gobCostInit,
       jackCost: jackCostInit,
       wraithCost: wraithCostInit,
@@ -216,12 +258,14 @@ class App extends Component {
         lifetimeSouls: lifetime,
         angelSouls: angel,
 
+        demon: {},
+
         imps: "0",
         gobs: "0",
         jacks: "0",
         wraiths: "0",
 
-        impCost: impCostInit,
+        impCost: initialDemonDetails.imp.cost,
         gobCost: gobCostInit,
         jackCost: jackCostInit,
         wraithCost: wraithCostInit,
@@ -246,10 +290,16 @@ class App extends Component {
     localStorage.setItem('save', JSON.stringify(this.state.save));
   }
 
-  renderStore = (index) => {
+  renderStore = (demonType) => {
+    const {name, ratio} = initialDemonDetails[demonType];
+
     return <Demon
-      index={index}
-      demon={this.state.demon}
+      demonType={demonType}
+      name={name}
+      ratio={ratio}
+      quantity={this.state.demon[demonType].quantity}
+      cost={this.state.demon[demonType].cost}
+      buyDemon={this.buyDemon2}
     />
   }
 
@@ -258,19 +308,10 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <div className="App">
         <div className="App-left">
-          {
-            this.state.demon
-              .map((name, index) => {
-                return (
-                  this.renderStore(index)
-                )
-              }
-            )
-          }
-
           <div>
             Total Souls Collected:
             {Math.round(this.state.totalSouls).toLocaleString()}
@@ -323,31 +364,17 @@ class App extends Component {
           </div>
 
           <div className="App-purchases">
-            <h2>Demons</h2>
-            <div className="App-demons">
-              <div className="App-demon-description">
-                {this.state.demon[0].name}: {this.state.demon[0].quantity}<br />
-                Cost: {this.state.demon[0].cost}<br />
-              </div>
-              <button
-                className="App-demon-button"
-                onClick={
-                  () => this.buyDemon2(this.state.demon[0], demonsCostInit.imp)
-                }
-              > Buy Imp </button>
-            </div>
 
-            <div className="App-demons">
-              <div className="App-demon-description">
-                {this.state.demon[1].name}: {this.state.demon[1].quantity}<br />
-                Cost: {this.state.demon[1].cost}<br />
-              </div>
-              <button
-                className="App-demon-button"
-                onClick={
-                  () => this.buyDemon('gobs', 'gobCost', gobCostInit, gobCostRatio)
-                }> Buy Goblin </button>
-            </div>
+            <h2>Demons</h2>
+            {
+              demonTypeNames
+                .map( (demonType) => {
+                  return (
+                    this.renderStore(demonType)
+                  )
+                }
+              )
+            }
 
             <div className="App-demons">
               <div className="App-demon-description">

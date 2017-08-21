@@ -6,10 +6,19 @@ class Demon extends React.Component {
   }
 
   render(){
-    const { index, demon } = this.props;
+    const { demonType, name, ratio, quantity, cost, buyDemon } = this.props;
     return(
-      <div>
-        <button>{demon[index].name}</button>
+      <div className="App-demons">
+        <div className="App-demon-description">
+          {name}s: {quantity}<br />
+          Cost: {cost}<br />
+        </div>
+        <button
+          className="App-demon-button"
+          onClick={
+            () => buyDemon(demonType)
+          }
+        > Buy {name} </button>
       </div>
     );
   }
