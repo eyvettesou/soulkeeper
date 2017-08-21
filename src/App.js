@@ -4,16 +4,6 @@ import { Icon } from 'antd';
 import soulsPortal from './images/soulsportal.gif';
 import Demon from './Demon';
 
-const impCostInit = 10;
-const gobCostInit = 100;
-const jackCostInit = 666;
-const wraithCostInit = 5000;
-
-const impCostRatio = 1.2;
-const gobCostRatio = 1.15;
-const jackCostRatio = 1.08;
-const wraithCostRatio = 1.18;
-
 let initialDemonDetails = {
   imp: {
     name: "Imp",
@@ -27,7 +17,6 @@ let initialDemonDetails = {
     cost: "100",
     ratio: 1.2,
   },
-  /*
   jack: {
     name: "Jackal",
     quantity: "0",
@@ -40,7 +29,6 @@ let initialDemonDetails = {
     cost: "5000",
     ratio: 1.18,
   },
-  */
 }
 
 let initialDemonStates = {
@@ -52,16 +40,14 @@ let initialDemonStates = {
     quantity: initialDemonDetails.gob.quantity,
     cost: initialDemonDetails.gob.cost,
   },
-  /*
-  // jack: {
-  //   quantity: initialDemonDetails.jack.quantity,
-  //   cost: initialDemonDetails.jack.cost,
-  // },
-  // wraith: {
-  //   quantity: initialDemonDetails.wraith.quantity,
-  //   cost: initialDemonDetails.wraith.cost,
-  // },
-  */
+  jack: {
+    quantity: initialDemonDetails.jack.quantity,
+    cost: initialDemonDetails.jack.cost,
+  },
+  wraith: {
+    quantity: initialDemonDetails.wraith.quantity,
+    cost: initialDemonDetails.wraith.cost,
+  },
 }
 
 let demonTypeNames = Object.keys(initialDemonDetails);
@@ -78,16 +64,6 @@ class App extends Component {
 
       demon: initialDemonStates,
 
-      imps: "0",
-      gobs: "0",
-      jacks: "0",
-      wraiths: "0",
-
-      impCost: initialDemonDetails.imp.cost,
-      gobCost: gobCostInit,
-      jackCost: jackCostInit,
-      wraithCost: wraithCostInit,
-
       impMultiplier: "1",
     };
 
@@ -100,37 +76,24 @@ class App extends Component {
       lifetimeSouls: parseInt(window.save.lifetimeSouls, 10),
       angelSouls: parseInt(window.save.angelSouls, 10),
 
-
       demon: {
         imp: {
-          quantity: window.save.imps,
-          cost: window.save.impCost,
+          quantity: window.save.demon.imp.quantity,
+          cost: window.save.demon.imp.cost,
         },
         gob: {
-          quantity: window.save.gobs,
-          cost: window.save.gobCost,
+          quantity: window.save.demon.gob.quantity,
+          cost: window.save.demon.gob.cost,
         },
-        /*
-        // jack: {
-        //   quantity: parseInt(window.save.demon.jack.quantity, 10),
-        //   cost: parseInt(window.save.demon.jack.cost, 10),
-        // },
-        // wraith: {
-        //   quantity: parseInt(window.save.demon.wraith.quantity, 10),
-        //   cost: parseInt(window.save.demon.wraith.cost, 10),
-        // },
-        */
+        jack: {
+          quantity: 0,
+          cost: 666,
+        },
+        wraith: {
+          quantity: 0,
+          cost: 1000,
+        },
       },
-
-      imps: parseInt(window.save.imps, 10),
-      gobs: parseInt(window.save.gobs, 10),
-      jacks: parseInt(window.save.jacks, 10),
-      wraiths: parseInt(window.save.wraiths, 10),
-
-      impCost: parseInt(window.save.impCost, 10),
-      gobCost: parseInt(window.save.gobCost, 10),
-      jackCost: parseInt(window.save.jackCost, 10),
-      wraithCost: parseInt(window.save.wraithCost, 10),
 
       impMultiplier: parseInt(window.save.impMultiplier, 10),
     }
@@ -145,20 +108,10 @@ class App extends Component {
     })
   }
 
-  buyDemon = (demonName, demonCost, demonCostInit, ratio) => {
-    if (this.state.souls >= this.state[demonCost]) {
-      this.setState({
-        souls: this.state.souls - this.state[demonCost],
-        [demonName]: this.state[demonName] + 1,
-        [demonCost]: Math.round(demonCostInit * Math.pow(ratio, this.state[demonName])),
-      });
-    }
-  }
-
-  buyDemon2 = (demon) => {
+  buyDemon = (demon) => {
     const demonInitial = initialDemonDetails[demon]
     const demonType = this.state.demon[demon];
-    const newDemonInformation = this.state.demon;
+    const newDemonInformation = JSON.parse(JSON.stringify(this.state.demon));
 
     if (this.state.souls >= demonType.cost) {
       newDemonInformation[demon].cost = Math.round(demonInitial.cost * Math.pow(demonInitial.ratio, demonType.quantity));
@@ -169,9 +122,7 @@ class App extends Component {
         demon: newDemonInformation,
       })
     };
-
   }
-
 
   upgradeImprovements = () => {
     if (this.state.souls >= 500) {
@@ -183,12 +134,14 @@ class App extends Component {
   }
 
   soulsPerSecond = () => {
+    const demon = this.state.demon;
+
     return(
       (
-        (this.state.demon.imp.quantity * this.state.impMultiplier)
-        + (this.state.demon.gob.quantity * 5)
-        + (this.state.jacks * 25)
-        + (this.state.wraiths * 150)
+        (demon.imp.quantity * this.state.impMultiplier)
+        + (demon.gob.quantity * 5)
+        + (demon.jack.quantity * 25)
+        + (demon.wraith.quantity * 150)
       ) * ( 1 + 0.02 * this.state.angelSouls )
     )
   }
@@ -214,16 +167,6 @@ class App extends Component {
 
         demon: this.state.demon,
 
-        imps: this.state.demon.imp.quantity,
-        gobs: this.state.gobs,
-        jacks: this.state.jacks,
-        wraiths: this.state.wraiths,
-
-        impCost: this.state.demon.imp.cost,
-        gobCost: this.state.gobCost,
-        jackCost: this.state.jackCost,
-        wraithCost: this.state.wraithCost,
-
         impMultiplier: this.state.impMultiplier,
       }
     }, () => {
@@ -240,16 +183,6 @@ class App extends Component {
 
       demon: initialDemonStates,
 
-      imps: 0,
-      gobs: 0,
-      jacks: 0,
-      wraiths: 0,
-
-      impCost: initialDemonDetails.imp.cost,
-      gobCost: gobCostInit,
-      jackCost: jackCostInit,
-      wraithCost: wraithCostInit,
-
       impMultiplier: 1,
 
       save: {
@@ -258,17 +191,7 @@ class App extends Component {
         lifetimeSouls: lifetime,
         angelSouls: angel,
 
-        demon: {},
-
-        imps: "0",
-        gobs: "0",
-        jacks: "0",
-        wraiths: "0",
-
-        impCost: initialDemonDetails.imp.cost,
-        gobCost: gobCostInit,
-        jackCost: jackCostInit,
-        wraithCost: wraithCostInit,
+        demon: initialDemonStates,
 
         impMultiplier: "1",
       }
@@ -290,25 +213,11 @@ class App extends Component {
     localStorage.setItem('save', JSON.stringify(this.state.save));
   }
 
-  renderStore = (demonType) => {
-    const {name, ratio} = initialDemonDetails[demonType];
-
-    return <Demon
-      demonType={demonType}
-      name={name}
-      ratio={ratio}
-      quantity={this.state.demon[demonType].quantity}
-      cost={this.state.demon[demonType].cost}
-      buyDemon={this.buyDemon2}
-    />
-  }
-
   componentDidMount() {
     setInterval(this.demonIncrement, 100);
   }
 
   render() {
-
     return (
       <div className="App">
         <div className="App-left">
@@ -364,41 +273,22 @@ class App extends Component {
           </div>
 
           <div className="App-purchases">
-
             <h2>Demons</h2>
             {
               demonTypeNames
                 .map( (demonType) => {
                   return (
-                    this.renderStore(demonType)
+                    <Demon
+                      demonType={demonType}
+                      name={initialDemonDetails[demonType].name}
+                      quantity={this.state.demon[demonType].quantity}
+                      cost={this.state.demon[demonType].cost}
+                      buyDemon={this.buyDemon}
+                    />
                   )
                 }
               )
             }
-
-            <div className="App-demons">
-              <div className="App-demon-description">
-                Jackals: {this.state.jacks}<br />
-                Cost: {this.state.jackCost}<br />
-              </div>
-              <button
-                className="App-demon-button"
-                onClick={
-                  () => this.buyDemon('jacks', 'jackCost', jackCostInit, jackCostRatio)
-                }> Buy Jackal </button>
-            </div>
-
-            <div className="App-demons">
-              <div className="App-demon-description">
-                Wraiths: {this.state.wraiths}<br />
-                Cost: {this.state.wraithCost}<br />
-              </div>
-              <button
-                className="App-demon-button"
-                onClick={
-                  () => this.buyDemon('wraiths', 'wraithCost', wraithCostInit, wraithCostRatio)
-                }> Buy Wraith </button>
-            </div>
           </div>
 
         </div>

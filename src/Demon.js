@@ -1,12 +1,8 @@
 import React from 'react';
 
 class Demon extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render(){
-    const { demonType, name, ratio, quantity, cost, buyDemon } = this.props;
+    const { demonType, name, quantity, cost, buyDemon } = this.props;
     return(
       <div className="App-demons">
         <div className="App-demon-description">
