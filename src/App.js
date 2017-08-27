@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Icon } from 'antd';
 import soulsPortal from './images/soulsportal.gif';
 import Demon from './Demon';
 
@@ -74,8 +73,8 @@ class App extends Component {
       angelSouls: parseInt(window.save.angelSouls, 10),
       demon: window.save.demon,
       impMultiplier: parseInt(window.save.impMultiplier, 10),
-    }
-  }
+    };
+  };
 
   soulClick = () => {
     var clickIncrement = 1;
@@ -84,7 +83,7 @@ class App extends Component {
       souls: this.state.souls + clickIncrement,
       totalSouls: this.state.totalSouls + clickIncrement,
     })
-  }
+  };
 
   buyDemon = (demon) => {
     const demonInitial = initialDemonDetails[demon]
