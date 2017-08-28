@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Demon from './Demon';
 import { shallow } from 'enzyme';
 
-describe('<Demon /> default', () => {
+describe('<Demon /> to render', () => {
   const demonType = 'imp';
   const quantity = 44;
   const cost = 10;
@@ -15,21 +15,19 @@ describe('<Demon /> default', () => {
     />
   );
 
-  it('renders name correctly', () => {
+  it('name correctly', () => {
     expect(wrapper.text()).toContain('Imps');
   });
 
-  it('renders quantity correctly', () => {
+  it('quantity correctly', () => {
     expect(wrapper.text()).toContain(quantity);
   });
 
-  it('renders cost correctly', () => {
+  it('cost correctly', () => {
     expect(wrapper.text()).toContain(`Cost: ${cost}`);
   });
 
-  it('renders button text correctly', () => {
+  it('button text correctly', () => {
     expect(wrapper.text()).toContain('Buy Imp');
   });
-
-  console.log(wrapper.text());
-})
+});
