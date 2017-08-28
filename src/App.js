@@ -226,7 +226,7 @@ class App extends Component {
             <div className = "App-upgrades">
               <div className="App-upgrade-icons">
                 <a onClick={ () => this.upgradeImprovements() } >
-                  <Icon type="caret-up" style={{ fontSize: 45 }} />
+                  Test
                 </a>
                 <span className="App-upgrade-description">
                   <b>Imp-rovements</b><br />
@@ -236,12 +236,12 @@ class App extends Component {
               </div>
               <div className="App-upgrade-icons">
                 <a>
-                  <Icon type="star" style={{ fontSize: 45 }} />
+                  Test2
                 </a>
                 <span className="App-upgrade-description">Oh My Goblin!</span>
               </div>
               <div className="App-upgrade-icons">
-                <a> <Icon type="team" style={{ fontSize: 45 }} /> </a>
+                <a> Test3</a>
                 <span className="App-upgrade-description">Grapes of Wraiths</span>
               </div>
             </div>
