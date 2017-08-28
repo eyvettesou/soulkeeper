@@ -255,7 +255,6 @@ class App extends Component {
                   return (
                     <Demon
                       demonType={demonType}
-                      name={initialDemonDetails[demonType].name}
                       quantity={this.state.demon[demonType].quantity}
                       cost={this.state.demon[demonType].cost}
                       buyDemon={this.buyDemon}

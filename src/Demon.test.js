@@ -5,20 +5,18 @@ import { shallow } from 'enzyme';
 
 describe('<Demon /> default', () => {
   const demonType = 'imp';
-  const name = 'Imp';
-  const quantity = 0;
+  const quantity = 44;
   const cost = 10;
   const wrapper = shallow(
     <Demon
       demonType={demonType}
-      name={name}
       quantity={quantity}
       cost={cost}
     />
   );
 
   it('renders name correctly', () => {
-    expect(wrapper.text()).toContain(name);
+    expect(wrapper.text()).toContain('Imps');
   });
 
   it('renders quantity correctly', () => {
@@ -30,7 +28,7 @@ describe('<Demon /> default', () => {
   });
 
   it('renders button text correctly', () => {
-    expect(wrapper.text()).toContain(`Buy ${name}`);
+    expect(wrapper.text()).toContain('Buy Imp');
   });
 
   console.log(wrapper.text());
