@@ -85,18 +85,18 @@ class App extends Component {
     })
   };
 
-  buyDemon = (demon) => {
-    const demonInitial = initialGeneratorDetails[demon]
-    const demonType = this.state.demon[demon];
-    const newDemonInformation = JSON.parse(JSON.stringify(this.state.demon));
+  buyGenerator = (generator) => {
+    const generatorInitial = initialGeneratorDetails[generator]
+    const generatorInformation = this.state.demon[generator];
+    const newGeneratorsInformation = JSON.parse(JSON.stringify(this.state.demon));
 
-    if (this.state.souls >= demonType.cost) {
-      newDemonInformation[demon].cost = Math.round(demonInitial.cost * Math.pow(demonInitial.ratio, demonType.quantity));
-      newDemonInformation[demon].quantity ++;
+    if (this.state.souls >= generatorInformation.cost) {
+      newGeneratorsInformation[generator].cost = Math.round(generatorInitial.cost * Math.pow(generatorInitial.ratio, generatorInformation.quantity));
+      newGeneratorsInformation[generator].quantity ++;
 
       this.setState({
-        souls: this.state.souls - demonType.cost,
-        demon: newDemonInformation,
+        souls: this.state.souls - generatorInformation.cost,
+        demon: newGeneratorsInformation,
       })
     };
   }
@@ -257,7 +257,7 @@ class App extends Component {
                       generator={generator}
                       quantity={this.state.demon[generator].quantity}
                       cost={this.state.demon[generator].cost}
-                      buyDemon={this.buyDemon}
+                      buyGenerator={this.buyGenerator}
                     />
                   )
                 }

@@ -12,7 +12,7 @@ class Generator extends React.Component {
   }
 
   render(){
-    const { generator, quantity, cost, buyDemon } = this.props;
+    const { generator, quantity, cost, buyGenerator } = this.props;
     return(
       <div className="App-demons">
         <div className="App-demon-description">
@@ -22,7 +22,7 @@ class Generator extends React.Component {
         <button
           className="App-demon-button"
           onClick={
-            () => buyDemon(generator)
+            () => buyGenerator(generator)
           }
         > Buy {this.capitalizeName(generator)} </button>
       </div>
