@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Demon extends React.Component {
+class Generator extends React.Component {
   capitalizeName = (demonType) => {
     let name = demonType[0].toUpperCase() + demonType.slice(1);
     return name;
@@ -30,10 +30,10 @@ class Demon extends React.Component {
   }
 }
 
-Demon.defaultProps = {
+Generator.defaultProps = {
   demonType:  'Unknown',
   quantity:   '0',
   cost:       '0',
 };
 
-export default Demon;
+export default Generator;

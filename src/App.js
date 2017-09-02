@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import soulsPortal from './images/soulsportal.gif';
-import Demon from './Demon';
+import Generator from './Generator';
 
 let initialDemonDetails = {
   imp: {
@@ -253,7 +253,7 @@ class App extends Component {
               demonTypeNames
                 .map( (demonType) => {
                   return (
-                    <Demon
+                    <Generator
                       demonType={demonType}
                       quantity={this.state.demon[demonType].quantity}
                       cost={this.state.demon[demonType].cost}

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Demon from './Demon';
+import Generator from './Generator';
 import { shallow } from 'enzyme';
 
-describe('<Demon /> default props successfully loads', () => {
-  const wrapper = shallow(<Demon />);
+describe('<Generator /> default props successfully loads', () => {
+  const wrapper = shallow(<Generator />);
 
   it('demonType', () => {
     expect(wrapper.instance().props.demonType).toBe('Unknown');
@@ -19,9 +19,9 @@ describe('<Demon /> default props successfully loads', () => {
   });
 });
 
-describe('<Demon /> functions', () => {
+describe('<Generator /> functions', () => {
   const word = 'goblin';
-  const wrapper = shallow(<Demon />);
+  const wrapper = shallow(<Generator />);
 
   it('capitalizeName capitalizes first letter of any word', () => {
       expect(wrapper.instance().capitalizeName(word)).toBe('Goblin');
@@ -32,12 +32,12 @@ describe('<Demon /> functions', () => {
   });
 });
 
-describe('<Demon /> props successfully renders', () => {
+describe('<Generator /> props successfully renders', () => {
   const demonType = 'imp';
   const quantity = 44;
   const cost = 10;
   const wrapper = shallow(
-    <Demon
+    <Generator
       demonType={demonType}
       quantity={quantity}
       cost={cost}
