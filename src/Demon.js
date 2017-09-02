@@ -7,7 +7,7 @@ class Demon extends React.Component {
   }
 
   pluralizeName = (demonType) => {
-    let name = this.capitalizeName(demonType) + 's';
+    let name = demonType + 's';
     return name;
   }
 
@@ -16,7 +16,7 @@ class Demon extends React.Component {
     return(
       <div className="App-demons">
         <div className="App-demon-description">
-          {this.pluralizeName(demonType)}: {quantity}<br />
+          {this.pluralizeName(this.capitalizeName(demonType))}: {quantity}<br />
           Cost: {cost}<br />
         </div>
         <button
@@ -29,5 +29,11 @@ class Demon extends React.Component {
     );
   }
 }
+
+Demon.defaultProps = {
+  demonType:  'Unknown',
+  quantity:   '0',
+  cost:       '0',
+};
 
 export default Demon;
