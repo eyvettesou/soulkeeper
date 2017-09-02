@@ -3,7 +3,7 @@ import './App.css';
 import soulsPortal from './images/soulsportal.gif';
 import Generator from './Generator';
 
-let initialDemonDetails = {
+let initialGeneratorDetails = {
   imp: {
     name: "Imp",
     quantity: "0",
@@ -30,26 +30,26 @@ let initialDemonDetails = {
   },
 }
 
-let initialDemonStates = {
+let initialGeneratorStates = {
   imp: {
-    quantity: initialDemonDetails.imp.quantity,
-    cost: initialDemonDetails.imp.cost,
+    quantity: initialGeneratorDetails.imp.quantity,
+    cost: initialGeneratorDetails.imp.cost,
   },
   gob: {
-    quantity: initialDemonDetails.gob.quantity,
-    cost: initialDemonDetails.gob.cost,
+    quantity: initialGeneratorDetails.gob.quantity,
+    cost: initialGeneratorDetails.gob.cost,
   },
   jack: {
-    quantity: initialDemonDetails.jack.quantity,
-    cost: initialDemonDetails.jack.cost,
+    quantity: initialGeneratorDetails.jack.quantity,
+    cost: initialGeneratorDetails.jack.cost,
   },
   wraith: {
-    quantity: initialDemonDetails.wraith.quantity,
-    cost: initialDemonDetails.wraith.cost,
+    quantity: initialGeneratorDetails.wraith.quantity,
+    cost: initialGeneratorDetails.wraith.cost,
   },
 }
 
-let demonTypeNames = Object.keys(initialDemonDetails);
+let generatorNames = Object.keys(initialGeneratorDetails);
 
 class App extends Component {
   constructor(props){
@@ -60,7 +60,7 @@ class App extends Component {
       totalSouls: "0",
       lifetimeSouls: "0",
       angelSouls: "0",
-      demon: initialDemonStates,
+      demon: initialGeneratorStates,
       impMultiplier: "1",
     };
 
@@ -86,7 +86,7 @@ class App extends Component {
   };
 
   buyDemon = (demon) => {
-    const demonInitial = initialDemonDetails[demon]
+    const demonInitial = initialGeneratorDetails[demon]
     const demonType = this.state.demon[demon];
     const newDemonInformation = JSON.parse(JSON.stringify(this.state.demon));
 
@@ -157,7 +157,7 @@ class App extends Component {
       totalSouls: 0,
       lifetimeSouls: lifetime,
       angelSouls: angel,
-      demon: initialDemonStates,
+      demon: initialGeneratorStates,
       impMultiplier: 1,
 
       save: {
@@ -166,7 +166,7 @@ class App extends Component {
         lifetimeSouls: lifetime,
         angelSouls: angel,
 
-        demon: initialDemonStates,
+        demon: initialGeneratorStates,
 
         impMultiplier: "1",
       }
@@ -250,13 +250,13 @@ class App extends Component {
           <div className="App-purchases">
             <h2>Demons</h2>
             {
-              demonTypeNames
-                .map( (demonType) => {
+              generatorNames
+                .map( (generator) => {
                   return (
                     <Generator
-                      demonType={demonType}
-                      quantity={this.state.demon[demonType].quantity}
-                      cost={this.state.demon[demonType].cost}
+                      generator={generator}
+                      quantity={this.state.demon[generator].quantity}
+                      cost={this.state.demon[generator].cost}
                       buyDemon={this.buyDemon}
                     />
                   )

@@ -6,8 +6,8 @@ import { shallow } from 'enzyme';
 describe('<Generator /> default props successfully loads', () => {
   const wrapper = shallow(<Generator />);
 
-  it('demonType', () => {
-    expect(wrapper.instance().props.demonType).toBe('Unknown');
+  it('generator', () => {
+    expect(wrapper.instance().props.generator).toBe('Unknown');
   });
 
   it('quantity', () => {
@@ -33,12 +33,12 @@ describe('<Generator /> functions', () => {
 });
 
 describe('<Generator /> props successfully renders', () => {
-  const demonType = 'imp';
+  const generator = 'imp';
   const quantity = 44;
   const cost = 10;
   const wrapper = shallow(
     <Generator
-      demonType={demonType}
+      generator={generator}
       quantity={quantity}
       cost={cost}
     />

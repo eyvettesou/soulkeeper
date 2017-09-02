@@ -1,37 +1,37 @@
 import React from 'react';
 
 class Generator extends React.Component {
-  capitalizeName = (demonType) => {
-    let name = demonType[0].toUpperCase() + demonType.slice(1);
+  capitalizeName = (generator) => {
+    let name = generator[0].toUpperCase() + generator.slice(1);
     return name;
   }
 
-  pluralizeName = (demonType) => {
-    let name = demonType + 's';
+  pluralizeName = (generator) => {
+    let name = generator + 's';
     return name;
   }
 
   render(){
-    const { demonType, quantity, cost, buyDemon } = this.props;
+    const { generator, quantity, cost, buyDemon } = this.props;
     return(
       <div className="App-demons">
         <div className="App-demon-description">
-          {this.pluralizeName(this.capitalizeName(demonType))}: {quantity}<br />
+          {this.pluralizeName(this.capitalizeName(generator))}: {quantity}<br />
           Cost: {cost}<br />
         </div>
         <button
           className="App-demon-button"
           onClick={
-            () => buyDemon(demonType)
+            () => buyDemon(generator)
           }
-        > Buy {this.capitalizeName(demonType)} </button>
+        > Buy {this.capitalizeName(generator)} </button>
       </div>
     );
   }
 }
 
 Generator.defaultProps = {
-  demonType:  'Unknown',
+  generator:  'Unknown',
   quantity:   '0',
   cost:       '0',
 };
