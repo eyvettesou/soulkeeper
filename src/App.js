@@ -60,7 +60,7 @@ class App extends Component {
       totalSouls: "0",
       lifetimeSouls: "0",
       angelSouls: "0",
-      demon: initialGeneratorStates,
+      generators: initialGeneratorStates,
       impMultiplier: "1",
     };
 
@@ -71,7 +71,7 @@ class App extends Component {
       totalSouls: parseInt(window.save.totalSouls, 10),
       lifetimeSouls: parseInt(window.save.lifetimeSouls, 10),
       angelSouls: parseInt(window.save.angelSouls, 10),
-      demon: window.save.demon,
+      generators: window.save.generators,
       impMultiplier: parseInt(window.save.impMultiplier, 10),
     };
   };
@@ -87,8 +87,8 @@ class App extends Component {
 
   buyGenerator = (generator) => {
     const generatorInitial = initialGeneratorDetails[generator]
-    const generatorInformation = this.state.demon[generator];
-    const newGeneratorsInformation = JSON.parse(JSON.stringify(this.state.demon));
+    const generatorInformation = this.state.generators[generator];
+    const newGeneratorsInformation = JSON.parse(JSON.stringify(this.state.generators));
 
     if (this.state.souls >= generatorInformation.cost) {
       newGeneratorsInformation[generator].cost = Math.round(generatorInitial.cost * Math.pow(generatorInitial.ratio, generatorInformation.quantity));
@@ -96,7 +96,7 @@ class App extends Component {
 
       this.setState({
         souls: this.state.souls - generatorInformation.cost,
-        demon: newGeneratorsInformation,
+        generators: newGeneratorsInformation,
       })
     };
   }
@@ -110,30 +110,6 @@ class App extends Component {
     }
   }
 
-  soulsPerSecond = () => {
-    const demon = this.state.demon;
-
-    return(
-      (
-        (demon.imp.quantity * this.state.impMultiplier)
-        + (demon.gob.quantity * 5)
-        + (demon.jack.quantity * 25)
-        + (demon.wraith.quantity * 150)
-      ) * ( 1 + 0.02 * this.state.angelSouls )
-    )
-  }
-
-  demonIncrement = () => {
-    this.setState({
-      souls:
-        this.state.souls + this.soulsPerSecond() * 0.1,
-      totalSouls:
-        this.state.totalSouls + this.soulsPerSecond() * 0.1,
-      soulsPerSecond:
-        this.soulsPerSecond(),
-    })
-  }
-
   saveGame = () => {
     this.setState({
       save: {
@@ -142,7 +118,7 @@ class App extends Component {
         lifetimeSouls: this.state.lifetimeSouls,
         angelSouls: this.state.angelSouls,
 
-        demon: this.state.demon,
+        generators: this.state.generators,
 
         impMultiplier: this.state.impMultiplier,
       }
@@ -157,7 +133,7 @@ class App extends Component {
       totalSouls: 0,
       lifetimeSouls: lifetime,
       angelSouls: angel,
-      demon: initialGeneratorStates,
+      generators: initialGeneratorStates,
       impMultiplier: 1,
 
       save: {
@@ -166,7 +142,7 @@ class App extends Component {
         lifetimeSouls: lifetime,
         angelSouls: angel,
 
-        demon: initialGeneratorStates,
+        generators: initialGeneratorStates,
 
         impMultiplier: "1",
       }
@@ -187,9 +163,33 @@ class App extends Component {
   handleCache = () => {
     localStorage.setItem('save', JSON.stringify(this.state.save));
   }
+  
+  soulsPerSecond = () => {
+    const generators = this.state.generators;
+
+    return(
+      (
+        (generators.imp.quantity * this.state.impMultiplier)
+        + (generators.gob.quantity * 5)
+        + (generators.jack.quantity * 25)
+        + (generators.wraith.quantity * 150)
+      ) * ( 1 + 0.02 * this.state.angelSouls )
+    )
+  }
+
+  soulIncrement = () => {
+    this.setState({
+      souls:
+        this.state.souls + this.soulsPerSecond() * 0.1,
+      totalSouls:
+        this.state.totalSouls + this.soulsPerSecond() * 0.1,
+      soulsPerSecond:
+        this.soulsPerSecond(),
+    })
+  }
 
   componentDidMount() {
-    setInterval(this.demonIncrement, 100);
+    setInterval(this.soulIncrement, 100);
   }
 
   render() {
@@ -255,8 +255,8 @@ class App extends Component {
                   return (
                     <Generator
                       generator={generator}
-                      quantity={this.state.demon[generator].quantity}
-                      cost={this.state.demon[generator].cost}
+                      quantity={this.state.generators[generator].quantity}
+                      cost={this.state.generators[generator].cost}
                       buyGenerator={this.buyGenerator}
                     />
                   )
