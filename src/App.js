@@ -67,7 +67,7 @@ class App extends Component {
     this.state={
       save: window.save,
       souls: parseInt(window.save.souls, 10),
-      soulsPerSecond: "0",
+      soulsPerSecond: 0,
       totalSouls: parseInt(window.save.totalSouls, 10),
       lifetimeSouls: parseInt(window.save.lifetimeSouls, 10),
       angelSouls: parseInt(window.save.angelSouls, 10),
@@ -131,20 +131,20 @@ class App extends Component {
     this.setState({
       souls: 0,
       totalSouls: 0,
-      lifetimeSouls: lifetime,
-      angelSouls: angel,
+      lifetimeSouls: parseInt(lifetime),
+      angelSouls: parseInt(angel),
       generators: initialGeneratorStates,
       impMultiplier: 1,
 
       save: {
-        souls: "0",
-        totalSouls: "0",
-        lifetimeSouls: lifetime,
-        angelSouls: angel,
+        souls: 0,
+        totalSouls: 0,
+        lifetimeSouls: parseInt(lifetime),
+        angelSouls: parseInt(angel),
 
         generators: initialGeneratorStates,
 
-        impMultiplier: "1",
+        impMultiplier: 1,
       }
     }, () => {
       this.handleCache();
@@ -163,7 +163,7 @@ class App extends Component {
   handleCache = () => {
     localStorage.setItem('save', JSON.stringify(this.state.save));
   }
-  
+
   soulsPerSecond = () => {
     const generators = this.state.generators;
 
@@ -266,8 +266,6 @@ class App extends Component {
           </div>
 
         </div>
-
-
       </div>
     );
   }
