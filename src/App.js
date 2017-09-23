@@ -85,6 +85,25 @@ class App extends Component {
     })
   };
 
+  generatorList = (generator) => {
+    let availableGenerators = [];
+
+    if (this.state.totalSouls >= 10) {
+      availableGenerators.push(generatorNames[0])
+    }
+    if (this.state.totalSouls >= 100) {
+      availableGenerators.push(generatorNames[1])
+    }
+    if (this.state.totalSouls >= 1000) {
+      availableGenerators.push(generatorNames[2])
+    }
+    if (this.state.totalSouls >= 10000) {
+      availableGenerators.push(generatorNames[3])
+    }
+
+    return(availableGenerators.includes(generator));
+  }
+
   buyGenerator = (generator) => {
     const generatorInitial = initialGeneratorDetails[generator]
     const generatorInformation = this.state.generators[generator];
@@ -251,6 +270,7 @@ class App extends Component {
             <h2>Demons</h2>
             {
               generatorNames
+                .filter(this.generatorList)
                 .map( (generator) => {
                   return (
                     <Generator
