@@ -29,7 +29,6 @@ describe('<App /> functions ', () => {
   mockGeneratorData.wraith.quantity = 5;
   mockGeneratorData.wraith.cost = 10;
 
-
   const mockState = {
     souls: 50000,
     totalSouls: 50000,
@@ -51,17 +50,15 @@ describe('<App /> functions ', () => {
 
   describe('soulsPerSecond', () => {
     it('calculates total production of souls correctly', () => {
-      console.log(wrapper.instance().soulsPerSecond)
+      wrapper.setState(mockState);
       const returnedValue = wrapper.instance().soulsPerSecond();
-      console.log(returnedValue);
-
+      
       expect(returnedValue).toBe(2718);
     });
   });
 
   describe('saveGame', () => {
     it('sets save state with current state values', () => {
-      wrapper.setState(mockState);
       wrapper.instance().saveGame();
 
       expect(wrapper.instance().state.save).toEqual(mockState);

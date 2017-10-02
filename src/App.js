@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import soulsPortal from './images/soulsportal.gif';
+import oni from './images/oni.svg';
 import Generator from './Generator';
+import Story from './Story.js';
 
 let initialGeneratorDetails = {
   imp: {
@@ -88,7 +90,7 @@ class App extends Component {
   generatorList = (generator) => {
     let availableGenerators = [];
 
-    if (this.state.totalSouls >= 10) {
+    if (this.state.totalSouls >= 25) {
       availableGenerators.push(generatorNames[0])
     }
     if (this.state.totalSouls >= 100) {
@@ -150,16 +152,16 @@ class App extends Component {
     this.setState({
       souls: 0,
       totalSouls: 0,
-      lifetimeSouls: parseInt(lifetime),
-      angelSouls: parseInt(angel),
+      lifetimeSouls: parseInt(lifetime, 10),
+      angelSouls: parseInt(angel, 10),
       generators: initialGeneratorStates,
       impMultiplier: 1,
 
       save: {
         souls: 0,
         totalSouls: 0,
-        lifetimeSouls: parseInt(lifetime),
-        angelSouls: parseInt(angel),
+        lifetimeSouls: parseInt(lifetime, 10),
+        angelSouls: parseInt(angel, 10),
 
         generators: initialGeneratorStates,
 
@@ -215,6 +217,8 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-left">
+          <img src={oni} alt="Portrait" />
+          <Story totalSouls={this.state.totalSouls} />
           <div>
             Total Souls Collected:
             {Math.round(this.state.totalSouls).toLocaleString()}
@@ -222,9 +226,12 @@ class App extends Component {
           <div className="App-game">
             <button onClick={this.prestigeGame}  className="App-game-button">Prestige</button>
             <button onClick={this.saveGame} className="App-game-button">Save Game</button>
-            <button onClick={
-              () => this.resetGame(0, 0)
-            }  className="App-game-button">Reset Game</button>
+            <button
+              onClick={ () => this.resetGame(0, 0) }
+              className="App-game-button"
+            >
+              Reset Game
+            </button>
           </div>
         </div>
 
