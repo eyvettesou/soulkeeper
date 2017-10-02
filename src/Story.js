@@ -1,4 +1,5 @@
 import React from 'react';
+import './css/Story.css';
 import fullStory from './fullStory.js';
 
 class Story extends React.Component {
@@ -13,7 +14,9 @@ class Story extends React.Component {
     if(this.props.totalSouls >= 25){
       availableStories.push(fullStory[2]);
     }
-
+    if(this.props.generators.imp.quantity >= 1){
+      availableStories.push(fullStory[4]);
+    }
 
     return(availableStories.includes(nextLine));
   }
@@ -21,7 +24,7 @@ class Story extends React.Component {
   render(){
     const {totalSouls} = this.props;
     return(
-      <div style={{padding: '20px 0'}}>
+      <div className="Story">
         {
           fullStory
             .filter(this.nextStep)

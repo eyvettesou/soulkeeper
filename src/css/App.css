@@ -11,6 +11,7 @@ body {
   color: white;
   font-size: 0.75em;
   font-family: 'Slabo 27px', serif;
+  height: 100%;
 }
 
 h2 {
@@ -21,20 +22,20 @@ h2 {
 }
 
 img {
-  margin: 1em;
+  margin: 0.5em;
 }
 
 .App {
   text-align: center;
   height: auto;
   display: flex;
-  margin-top: 4em;
+  margin-top: 1em;
 }
 
 .App-left {
   flex-grow: 1;
   margin: 0.5em 0.5em 1em 1em;
-  max-width: 300px;
+  max-width: 350px;
   padding: 1em;
 }
 
@@ -43,7 +44,7 @@ img {
 }
 
 .App-game-button {
-  margin: 1em;
+  margin-left: 0.17em;
   border-radius: 3px;
   padding: 0.5em;
   color: #FFF;

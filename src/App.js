@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './css/App.css';
 import soulsPortal from './images/soulsportal.gif';
 import oni from './images/oni.svg';
 import Generator from './Generator';
@@ -218,7 +218,7 @@ class App extends Component {
       <div className="App">
         <div className="App-left">
           <img src={oni} alt="Portrait" />
-          <Story totalSouls={this.state.totalSouls} />
+          <Story generators={this.state.generators} totalSouls={this.state.totalSouls} />
           <div>
             Total Souls Collected:
             {Math.round(this.state.totalSouls).toLocaleString()}
